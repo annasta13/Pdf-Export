@@ -77,10 +77,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun toastErrorMessage(s: String) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
-    }
-
     private fun openFile(file: File) {
         val path = FileHandler().getPathFromUri(this, file.toUri())
         val pdfFile = File(path)
@@ -96,4 +92,9 @@ class MainActivity : AppCompatActivity() {
             toastErrorMessage("Can't read pdf file")
         }
     }
+
+    private fun toastErrorMessage(s: String) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+    }
+
 }

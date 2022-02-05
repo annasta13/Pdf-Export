@@ -42,10 +42,10 @@ class PdfService {
         document.open()
     }
 
-    private fun createTable(): PdfPTable {
-        val table = PdfPTable(4)
+    private fun createTable(column: Int, columnWidth: FloatArray): PdfPTable {
+        val table = PdfPTable(column)
         table.widthPercentage = 100f
-        table.setWidths(floatArrayOf(0.2f, 1f, 1f, 1f))
+        table.setWidths(columnWidth)
         table.headerRows = 1
         table.defaultCell.verticalAlignment = Element.ALIGN_CENTER
         table.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
@@ -110,7 +110,12 @@ class PdfService {
         addLineSpace(document, 1)
 
         //Define Table
-        val table = createTable()
+        val userIdWidth = 0.2f
+        val firstNameWidth = 1f
+        val middleNameWidth = 1f
+        val lastNameWidth = 1f
+        val columnWidth = floatArrayOf(userIdWidth, firstNameWidth, middleNameWidth, lastNameWidth)
+        val table = createTable(4, columnWidth)
         //Table header (first row)
         val tableHeaderContent = listOf("No", "First Name", " Middle Name", " Last Name")
         //write table header into table
