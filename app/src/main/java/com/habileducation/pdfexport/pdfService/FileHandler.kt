@@ -34,9 +34,28 @@ class FileHandler {
 
                 // TODO handle non-primary volumes
             } else if (isDownloadsDocument(uri)) {
-                val id = DocumentsContract.getDocumentId(uri)
+                /*val id = DocumentsContract.getDocumentId(uri)
                 val contentUri: Uri = ContentUris.withAppendedId(
                     Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)
+                )
+                return getDataColumn(context, contentUri, null, null)*/
+                                
+                val fileName = getFilePath(context, uri)
+                if (fileName != null) {
+                    return Environment.getExternalStorageDirectory()
+                        .toString() + "/Download/" + fileName
+                }
+
+                var id = DocumentsContract.getDocumentId(uri)
+                if (id.startsWith("raw:")) {
+                    id = id.replaceFirst("raw:".toRegex(), "")
+                    val file = File(id)
+                    if (file.exists()) return id
+                }
+
+                val contentUri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"),
+                    java.lang.Long.valueOf(id)
                 )
                 return getDataColumn(context, contentUri, null, null)
             } else if (isMediaDocument(uri)) {
